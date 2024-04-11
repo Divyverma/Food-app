@@ -1,0 +1,36 @@
+import { NextResponse } from 'next/server'
+import mongoose from 'mongoose'
+import { connectionStr } from '@/app/lib/db'
+import { restaurantSchema } from '@/app/lib/restaurantModel'
+
+export async function GET() {
+    await mongoose.connect(connectionStr, { useNewUrlParser: true })
+    const data = await restaurantSchema.find()
+    console.log(data)
+
+    return NextResponse.json({ data, result: true })
+}
+
+
+export async function POST(request) {
+    let payload = await request.json();
+    let result;
+    let success=false;
+    await mongoose.connect(connectionStr, { useNewUrlParser: true })
+    if (payload.login) {
+        //use if for login 
+        result=await restaurantSchema.findOne({email:payload.email, password:payload.password})
+        if(result){
+            success=true;
+        }
+    } else {
+        //use for signup
+        const restaurant = new restaurantSchema(payload)
+        result = await restaurant.save();
+        if(result){
+            success=true;
+        }
+    }
+    console.log(payload);
+    return NextResponse.json({ result, success})
+}
