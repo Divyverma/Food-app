@@ -1,13 +1,18 @@
+'use client'
+import { useRouter } from "next/navigation";
 import { useState } from "react"
 
-const AddFoodItem = (props) => {
+const EditFoodItem = (props) => {
+
+    const router = useRouter();
+
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [path, setPath] = useState('');
     const [description, setDescription] = useState('');
     const [error, setError] = useState(false);
 
-    const handleAddFoodItem = async () => {
+    const handleEditFoodItem = async () => {
         // console.log(name, price, path, description);
         if(!name || !path | !price || !description){
             setError(true);
@@ -15,26 +20,10 @@ const AddFoodItem = (props) => {
         }else{
             setError(false);
         }
-        let resto_id;
-        const restaurantData = JSON.parse(localStorage.getItem("restaurantUser"));
-        if (restaurantData) {
-            resto_id = restaurantData._id;
-        }
-        let response = await fetch("http://localhost:3000/api/restaurant/foods", {
-            method: "POST",
-            body: JSON.stringify({ name, price, img_path: path, description, resto_id })
-        })
-        response = await response.json();
-        if (response.success) {
-            alert("food item added");
-            props.setAddItem(false);
-        }else{
-            alert("food item not added");
-        }
     }
     return (
         <div className="container">
-            <h1>Add New food Item</h1>
+            <h1>Update food Item</h1>
 
             <div className="input-wrapper">
                 <input className="input-field" type="text" placeholder="Enter food Name"
@@ -66,10 +55,13 @@ const AddFoodItem = (props) => {
             }
 
             <div className="input-wrapper">
-                <button className="button" onClick={handleAddFoodItem}>Add food Item</button>
+                <button className="button" onClick={handleEditFoodItem}>Update food Item</button>
+            </div>
+            <div className="input-wrapper">
+                <button className="button" onClick={()=>router.push('/restaurant/dashboard')}>Back to FoodList</button>
             </div>
         </div>
     )
 }
 
-export default AddFoodItem
+export default EditFoodItem
