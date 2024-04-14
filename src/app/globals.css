@@ -37,7 +37,7 @@
     width: 100%;
     bottom: 0;
     font-size: 10px;
-    background-color: #fff;
+    background-color: #e9e8e8;
 }
 
 
@@ -115,6 +115,8 @@ table img {
     border: none;
     width: 25%;
     padding-left: 15px;
+    border: none;
+    outline: none;
 }
 
 .search-input {
@@ -135,10 +137,11 @@ table img {
     background-color: #fff;
     padding: 0;
     margin: 0;
-    margin-top: 5px;
     margin-left: -5px;
     border: 1px solid #ccc;
     border-radius: 0 0 5px 5px;
+    border-top: 0;
+    margin-left: 3.8%;
 }
 
 .location-list li {
