@@ -1,69 +1,78 @@
 'use client'
+import Image from "next/image";
+import styles from "./page.module.css";
 import { useEffect, useState } from "react";
-import CustomerHeader from "./_component/CustomerHeader";
+import { useRouter } from "next/navigation";
 import Footer from "./_component/Footer";
+import CustomerHeader from "./_component/CustomerHeader";
 
 export default function Home() {
   const [locations, setLocations] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState('');
   const [showLocation, setShowLocation] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    loadLocation();
-    loadRestaurant();
+    loadLocations();
+    loadRestaurants()
   }, [])
 
-  const loadLocation = async () => {
-    let response = await fetch("http://localhost:3000/api/customer/locations")
-    response = await response.json();
-
+  const loadLocations = async () => {
+    let response = await fetch('http://localhost:3000/api/customer/locations');
+    response = await response.json()
     if (response.success) {
-      setLocations(response.result);
+      setLocations(response.result)
     }
   }
 
-  const loadRestaurant = async () => {
-    let response = await fetch("http://localhost:3000/api/customer")
-    response = await response.json();
+  const loadRestaurants = async (params) => {
+    let url = "http://localhost:3000/api/customer";
+    if (params?.location) {
+      url = url + "?location=" + params.location
+    } else if (params?.restaurant) {
+      url = url + "?restaurant=" + params.restaurant
+    }
+    let response = await fetch(url);
+    response = await response.json()
     if (response.success) {
-      setRestaurants(response.result);
+      setRestaurants(response.result)
     }
   }
+
 
   const handleListItem = (item) => {
-    setSelectedLocation(item);
-    setShowLocation(false);
+    setSelectedLocation(item)
+    setShowLocation(false)
+    loadRestaurants({ location: item })
   }
-
+  console.log(restaurants);
   return (
-    <main>
-      <CustomerHeader />
-
+    <main >
+      <CustomerHeader/>
       <div className="main-page-banner">
-        <h1>FOOD WEBSITE</h1>
-        <div className="input-wraper">
-          <input type="text"
-            value={selectedLocation}
-            className="select-input" placeholder="Select Place"
+        <h1>Food Delivery App</h1>
+        <div className="input-wrapper">
+          <input type="text" value={selectedLocation}
             onClick={() => setShowLocation(true)}
-          />
-
+            className="select-input" placeholder="Select Place" />
           <ul className="location-list">
             {
               showLocation && locations.map((item) => (
-                <li onClick={() => handleListItem(item)} >{item}</li>
+                <li onClick={() => handleListItem(item)}>{item}</li>
               ))
             }
           </ul>
-          <input type="text" className="search-input" placeholder="Enter Food or Retaurant Name" />
+
+          <input type="text" className="search-input"
+            onChange={(event) => loadRestaurants({ restaurant: event.target.value })}
+            placeholder="Enter food or restaurant name" />
         </div>
       </div>
-
       <div className="restaurant-list-container">
         {
           restaurants.map((item) => (
-            <div className="restaurnt-wrapper">
+            <div onClick={()=>router.push('explore/'+item.name)} className="restaurnt-wrapper">
               <div className="heading-wrapper">
                 <h3>{item.name}</h3>
                 <h5>Contact: {item.contact}</h5>
@@ -76,7 +85,6 @@ export default function Home() {
           ))
         }
       </div>
-
       <Footer />
     </main>
   );

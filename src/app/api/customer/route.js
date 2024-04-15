@@ -20,3 +20,23 @@ export async function GET(request){
     let result = await restaurantSchema.find(filter);
     return NextResponse.json({success:true, result});
 }
+
+
+
+
+{/* <div className="restaurant-list-container">
+        {
+          restaurants.map((item) => (
+            <div className="restaurnt-wrapper">
+              <div className="heading-wrapper">
+                <h3>{item.name}</h3>
+                <h5>Contact: {item.contact}</h5>
+              </div>
+              <div className="address-wrapper">
+                <div>{item.city},</div>
+                <div className="address">{item.address}, Email: {item.email}</div>
+              </div>
+            </div>
+          ))
+        }
+      </div> */}
