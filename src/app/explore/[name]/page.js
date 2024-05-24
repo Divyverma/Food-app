@@ -1,11 +1,13 @@
 'use client'
 import CustomerHeader from "@/app/_component/CustomerHeader";
+import Footer from "@/app/_component/Footer";
 import { useEffect, useState } from "react"
 
 const Page = (props) => {
     const name = props.params.name;
     const [restaurantDetails, setRestaurantDetails] = useState();
-    const [foodItems, setFoodItems] = useState([])
+    const [foodItems, setFoodItems] = useState([]);
+    const [cartData, setCartData] = useState();
 
 
     useEffect(() => {
@@ -22,31 +24,43 @@ const Page = (props) => {
         }
 
     }
+
+    const addToCart = (item) => {
+        setCartData(item);
+    }
+
     return (
         <div>
-            <CustomerHeader/>
+            <CustomerHeader cartData={cartData} />
             <div className="restaurant-page-banner">
                 <h1>{decodeURI(name)}</h1>
             </div>
-            <div>
+            <div className="detail-wrapper">
                 <h4>Contact : {restaurantDetails?.contact}</h4>
                 <h4>City:{restaurantDetails?.city}</h4>
                 <h4>Address:{restaurantDetails?.address}</h4>
                 <h4>Email:{restaurantDetails?.email}</h4>
             </div>
-            <div>
+            <div className="food-item-wrapper">
                 {
-                    foodItems.map((item)=>(
-                        <div>
-                            <div>{item.name}</div>
-                            <div>{item.price}</div>
-                            <div>{item.description}</div>
-                            <img style={{width:100}}  src={item.img_path} />
+                    foodItems.length > 0 ? foodItems.map((item) => (
+                        <div className="list-item">
+                            <div> <img style={{ width: 100 }} src={item.img_path} /> </div>
+
+                            <div>
+                                <div>{item.name}</div>
+                                <div>{item.price}</div>
+                                <div className="description">{item.description}</div>
+                                <button onClick={() => addToCart(item)}>Add To Cart</button>
+                            </div>
                         </div>
-                        
-                    ))
+
+                    )) :
+                        <h1>NO FOOD ITEMS AVAILABLER FOR NOW</h1>
                 }
             </div>
+
+            <Footer />
         </div>
     )
 }
