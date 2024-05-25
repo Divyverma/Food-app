@@ -49,7 +49,7 @@ const CustomerHeader = (props) => {
             setCartItem(localCartItem);
             setCartNumber(cartNumber-1);
             localStorage.setItem('cart', JSON.stringify(localCartItem));
-            
+
             if(localStorage.length==0){
                 localStorage.removeItem('cart');
             }
@@ -69,7 +69,7 @@ const CustomerHeader = (props) => {
                 <li><Link href={'/'}>Home</Link></li>
                 <li><Link href={'/'}>Login</Link></li>
                 <li><Link href={'/'}>SignUp</Link></li>
-                <li><Link href={'/'}>Cart({cartNumber ? cartNumber : 0})</Link></li>
+                <li><Link href={cartNumber ? '/cart' : '#'}>Cart({cartNumber ? cartNumber : 0})</Link></li>
                 <li><Link href={'/'}>Add Restaurant</Link></li>
             </ul>
         </div>
