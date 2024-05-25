@@ -9,6 +9,10 @@ const Page = () => {
     const [cartStorage, setCartStorage] = useState(JSON.parse(localStorage.getItem('cart')));
     const [total] = useState(() => cartStorage.length == 1 ? cartStorage[0].price : cartStorage.reduce((a, b) => {
         return parseInt(a.price) + parseInt(b.price)
+        // parseInt(a.price)
+        // parseInt(b.price)
+        // return a.price + b.price;
+        
     }))
     // console.log(typeof(cartStorage[0].price));
 
