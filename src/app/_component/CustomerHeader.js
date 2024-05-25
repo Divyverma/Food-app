@@ -8,8 +8,10 @@ const CustomerHeader = (props) => {
     const [cartNumber, setCartNumber] = useState(cartStorage?.length);
     const [cartItem, setCartItem] = useState(cartStorage);
 
-    useEffect(() => {
 
+
+
+    useEffect(() => {
         if (props.cartData) {
             console.log(props);
             if (cartNumber) {
@@ -37,6 +39,23 @@ const CustomerHeader = (props) => {
         }
 
     }, [props.cartData])
+
+    useEffect(()=>{
+        
+        if(props.removeCartData){
+            let localCartItem = cartItem.filter((item)=>{
+                return item._id!=props.removeCartData
+            })
+            setCartItem(localCartItem);
+            setCartNumber(cartNumber-1);
+            localStorage.setItem('cart', JSON.stringify(localCartItem));
+            
+            if(localStorage.length==0){
+                localStorage.removeItem('cart');
+            }
+        }
+
+    }, [props.removeCartData])
 
 
 
