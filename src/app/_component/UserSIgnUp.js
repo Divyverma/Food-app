@@ -7,11 +7,21 @@ const UserSIgnUp = () => {
     const [password, setPassword] = useState();
     const [c_password, setC_password] = useState();
     const [city, setCity] = useState();
-    const [Address, setAddress] = useState();
+    const [address, setAddress] = useState();
     const [mobile, setMobile] = useState();
 
-    const handleSingUp=()=>{
-        console.log(name, email, password, c_password, city, Address, mobile);
+    const handleSignUp = async () => {
+        // console.log(name, email, password, confirmPassword, city, address, mobile);
+        let response = await fetch('http://localhost:3000/api/user', {
+            method: 'post',
+            body: JSON.stringify({ name, email, password, city, address, mobile })
+        })
+        response = await response.json();
+        if (response.success) {
+            alert("Successfull")
+        } else {
+            alert("failed")
+        }
     }
 
     return (
@@ -33,13 +43,13 @@ const UserSIgnUp = () => {
                 <input className="input-field" type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="Enter City" />
             </div>
             <div className="input-wrapper">
-                <input className="input-field" type="text" value={Address} onChange={(e) => setAddress(e.target.value)} placeholder="Enter Address" />
+                <input className="input-field" type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Enter Address" />
             </div>
             <div className="input-wrapper">
                 <input className="input-field" type="phone" value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder="Enter Phone No." />
             </div>
             <div className="input-wrapper">
-                <button className="button" onClick={handleSingUp}>SignUp</button>
+                <button className="button" onClick={handleSignUp}>SignUp</button>
             </div>
 
         </div>
