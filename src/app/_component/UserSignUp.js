@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 
-const UserSIgnUp = () => {
+const UserSignUp = () => {
 
     const [name, setName] = useState();
     const [email, setEmail] = useState();
@@ -63,4 +63,4 @@ const UserSIgnUp = () => {
     )
 }
 
-export default UserSIgnUp
+export default UserSignUp
