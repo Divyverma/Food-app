@@ -11,7 +11,7 @@ export async function POST(request) {
     const user= new userSchema(payload);
     const result = await user.save()
     if(result){
-        success=true
+        success=true;
     }
 
     
